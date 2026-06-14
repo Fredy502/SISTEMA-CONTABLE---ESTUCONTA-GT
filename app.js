@@ -1,164 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =========================================
-    // DATOS MAESTROS PROVISIONALES
-    // =========================================
+    const EstucontaERP = (() => {
+        // =========================================
+        // DATOS MAESTROS Y CONFIGURACIÓN CORPORATIVA
+        // =========================================
+        const provisionalUsers = {
+            'admin_gd': { pass: 'Gd2026!Master', role: 'Super Admin' },
+            'conta1': { pass: 'Conta#34', role: 'Contabilidad' },
+            'caja1': { pass: 'Caja$12', role: 'Caja' }
+        };
 
-    // 10 Usuarios (1 Maestro, 9 Normales)
-    const provisionalUsers = {
-        'admin_gd': { pass: 'Gd2026!Master', type: 'master' },  // MAESTRO
-        'conta1': { pass: 'Conta#34', type: 'normal' },
-        'conta2': { pass: 'Conta#89', type: 'normal' },
-        'caja1': { pass: 'Caja$12', type: 'normal' },
-        'caja2': { pass: 'Caja$77', type: 'normal' },
-        'auditor1': { pass: 'Aud@98', type: 'normal' },
-        'asistente1': { pass: 'Asis%44', type: 'normal' },
-        'gerente_chiq': { pass: 'Chiq!10', type: 'normal' },
-        'gerente_sx': { pass: 'SX#20', type: 'normal' },
-        'recepcion1': { pass: 'Rec@56', type: 'normal' }
-    };
+        const sociedades = [
+            'Estuconta 1, S.A.', 'Estuconta 2, S.A.', 'Holding GrupoDent'
+        ];
 
-    // 5 Empresas Ficticias de Estuconta
-    const ficticiousCompanies = [
-        'Estuconta 1, S.A.',
-        'Estuconta 2, S.A.',
-        'Estuconta 3, S.A.',
-        'Estuconta 4, S.A.',
-        'Estuconta 5, S.A.'
-    ];
+        let state = {
+            currentUser: null,
+            currentRole: null,
+            company: null,
+            period: null
+        };
 
-    // Variables de sesión actual
-    let currentUser = null;
-    let currentCompanyName = null;
-    let currentPeriod = null;
-
-    // =========================================
-    // FASE 1: LÓGICA DE LOGIN (SAP B1)
-    // =========================================
-    const loginScreen = document.getElementById('sap-login-screen');
-    const inputUser = document.getElementById('sap-user');
-    const inputPass = document.getElementById('sap-pass');
-    const btnLoginOk = document.getElementById('btn-login-ok');
-
-    const handleLogin = () => {
-        const user = inputUser.value.trim();
-        const pass = inputPass.value;
-
-        if (provisionalUsers[user] && provisionalUsers[user].pass === pass) {
-            // Éxito en Login
-            currentUser = user;
-            // Pasar a Fase 2: Selección
-            loginScreen.classList.remove('active');
-            showSelectionScreen();
-        } else {
-            // Fallo en Login
-            alert('Fallo en la autenticación. Código de usuario o contraseña incorrectos.');
-            inputPass.value = '';
-            inputPass.focus();
-        }
-    };
-
-    btnLoginOk.addEventListener('click', handleLogin);
-    // Permitir Login con Enter
-    inputPass.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
-    document.getElementById('btn-login-cancel').addEventListener('click', () => {
-        if(confirm('¿Desea salir del sistema?')) window.close();
-    });
-
-
-    // =========================================
-    // FASE 2: LÓGICA DE SELECCIÓN (SAP B1)
-    // =========================================
-    const selectionScreen = document.getElementById('sap-selection-screen');
-    const selectEmpresa = document.getElementById('sel-empresa');
-    const selectAnio = document.getElementById('sel-anio');
-    const selectMes = document.getElementById('sel-mes');
-    const btnSelOk = document.getElementById('btn-sel-ok');
-
-    const showSelectionScreen = () => {
-        selectionScreen.classList.add('active');
-        populateDropdowns();
-    };
-
-    const populateDropdowns = () => {
-        // Poblar Empresas
-        ficticiousCompanies.forEach(emp => {
-            const opt = document.createElement('option');
-            opt.value = emp; opt.textContent = emp;
-            selectEmpresa.appendChild(opt);
-        });
-
-        // Poblar Años (2020 - 2030)
-        for (let year = 2026; year >= 2020; year--) {
-            const opt = document.createElement('option');
-            opt.value = year; opt.textContent = year;
-            selectAnio.appendChild(opt);
-        }
-
-        // Poblar Meses
-        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        meses.forEach((mes, index) => {
-            const opt = document.createElement('option');
-            opt.value = index + 1; opt.textContent = mes;
-            if(index === 3) opt.selected = true; // Abril por defecto
-            selectMes.appendChild(opt);
-        });
-    };
-
-    btnSelOk.addEventListener('click', () => {
-        currentCompanyName = selectEmpresa.value;
-        const anio = selectAnio.value;
-        const mesText = selectMes.options[selectMes.selectedIndex].textContent;
-        currentPeriod = `${mesText} ${anio}`;
-
-        // Fase 3: Entrar a la App
-        selectionScreen.classList.remove('active');
-        enterMainApp();
-    });
-
-    // =========================================
-    // FASE 3: LÓGICA DE LA APP PRINCIPAL
-    // =========================================
-    const mainAppContainer = document.getElementById('main-app-container');
-    const contextDisplay = document.getElementById('sap-context-display');
-
-    const enterMainApp = () => {
-        mainAppContainer.classList.add('active');
-        // Actualizar Cabecera de Contexto (Estilo SAP)
-        contextDisplay.textContent = `${currentCompanyName} | ${currentUser} | ${currentPeriod}`;
-        
-        // Inicializar módulos que ya teníamos
-        renderNomenclatura();
-        actualizarDashboard();
-        // Cargar filas iniciales de partida
-        tbodyPartida.innerHTML = '';
-        createRow(); createRow();
-    };
-
-    // --- (Aquí sigue la lógica anterior de navegación, nomenclatura, partidas, etc.) ---
-    
-    // NAVIGATION
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => { header.nextElementSibling.classList.toggle('show'); });
-    });
-
-    const navItems = document.querySelectorAll('.nav-item');
-    const modules = document.querySelectorAll('.module');
-
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            navItems.forEach(i => i.classList.remove('active'));
-            modules.forEach(m => m.classList.remove('active'));
-            item.classList.add('active');
-            const targetId = item.getAttribute('data-target');
-            document.getElementById(targetId).classList.add('active');
-            if (targetId === 'consulta-partidas') renderConsultaPartidas();
-        });
-    });
-
-    // NOMENCLATURA DATOS (Kilométrica, se mantiene igual)
-    const rawNomenclatura = `1|ACTIVO|D|P|1
+        // NOMENCLATURA CONTABLE INTACTA
+        const rawNomenclatura = `1|ACTIVO|D|P|1
 11|ACTIVO CORRIENTE|D|P|2
 1101|CAJA Y BANCOS|D|P|3
 110101|CAJA GENERAL|D|P|4
@@ -820,100 +684,254 @@ document.addEventListener('DOMContentLoaded', () => {
 81020102|Proyecto Rediseño Sitio Web|D|D|5
 81020103|Proyecto Software a la Medida|D|D|5`;
 
-    const nomenclaturaData = rawNomenclatura.split('\n').map(line => {
-        const parts = line.split('|');
-        return { codigo: parts[0], descripcion: parts[1], da: parts[2], pd: parts[3], nivel: parts[4] };
-    });
+        const nomenclaturaData = rawNomenclatura.split('\n').map(line => {
+            const parts = line.split('|');
+            return { codigo: parts[0], descripcion: parts[1], da: parts[2], pd: parts[3], nivel: parts[4] };
+        });
 
-    const renderNomenclatura = () => {
-        const tbody = document.querySelector('#tabla-nomenclatura tbody');
-        const datalist = document.getElementById('cuentas-list');
-        tbody.innerHTML = ''; datalist.innerHTML = '';
-        nomenclaturaData.forEach(cuenta => {
-            const padding = (parseInt(cuenta.nivel) - 1) * 15;
+        // DOM Elements
+        const screens = {
+            login: document.getElementById('login-screen'),
+            selection: document.getElementById('selection-screen'),
+            app: document.getElementById('main-app')
+        };
+
+        // =========================================
+        // MÉTODOS DE AUTENTICACIÓN
+        // =========================================
+        const handleLogin = () => {
+            const user = document.getElementById('user').value.trim();
+            const pass = document.getElementById('pass').value;
+
+            if (provisionalUsers[user] && provisionalUsers[user].pass === pass) {
+                state.currentUser = user;
+                state.currentRole = provisionalUsers[user].role;
+                screens.login.classList.remove('active');
+                initSelectionScreen();
+            } else {
+                alert('Credenciales inválidas. Acceso denegado.');
+            }
+        };
+
+        const initSelectionScreen = () => {
+            screens.selection.classList.add('active');
+            const selEmp = document.getElementById('sel-empresa');
+            const selAnio = document.getElementById('sel-anio');
+            const selMes = document.getElementById('sel-mes');
+
+            selEmp.innerHTML = ''; selAnio.innerHTML = ''; selMes.innerHTML = '';
+
+            sociedades.forEach(emp => selEmp.add(new Option(emp, emp)));
+            for (let y = 2026; y >= 2020; y--) selAnio.add(new Option(y, y));
+            
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            meses.forEach((m, i) => selMes.add(new Option(m, i + 1)));
+        };
+
+        const startApp = () => {
+            state.company = document.getElementById('sel-empresa').value;
+            state.period = `${document.getElementById('sel-mes').options[document.getElementById('sel-mes').selectedIndex].text} ${document.getElementById('sel-anio').value}`;
+            
+            document.getElementById('ctx-empresa').textContent = state.company;
+            document.getElementById('ctx-periodo').textContent = state.period;
+            document.getElementById('ctx-usuario').textContent = `${state.currentUser} (${state.currentRole})`;
+
+            screens.selection.classList.remove('active');
+            screens.app.classList.remove('hidden');
+
+            renderNomenclatura();
+            updateDashboard();
+            resetPartidaDiario();
+        };
+
+        // =========================================
+        // MOTOR CONTABLE (Lógica de Pólizas) [cite: 24, 25]
+        // =========================================
+        const resetPartidaDiario = () => {
+            const tbody = document.getElementById('filas-partida');
+            tbody.innerHTML = '';
+            document.getElementById('fecha-partida').value = '';
+            document.getElementById('desc-partida').value = '';
+            addPartidaRow(); addPartidaRow();
+            calcPartidaTotals();
+        };
+
+        const addPartidaRow = () => {
+            const tbody = document.getElementById('filas-partida');
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><strong>${cuenta.codigo}</strong></td><td style="padding-left: ${padding + 5}px;">${cuenta.descripcion}</td><td>${cuenta.da}</td><td>${cuenta.pd}</td><td>${cuenta.nivel}</td>`;
+            tr.innerHTML = `
+                <td><input type="text" placeholder="Buscar código o nombre..." list="cuentas-list" class="cta-input"></td>
+                <td><input type="number" step="0.01" class="val-debe" placeholder="0.00"></td>
+                <td><input type="number" step="0.01" class="val-haber" placeholder="0.00"></td>
+                <td style="text-align: center;"><button class="btn-danger-icon" title="Eliminar fila"><i class="ri-delete-bin-line"></i></button></td>
+            `;
+            
+            tr.querySelector('.val-debe').addEventListener('input', calcPartidaTotals);
+            tr.querySelector('.val-haber').addEventListener('input', calcPartidaTotals);
+            tr.querySelector('.btn-danger-icon').addEventListener('click', () => { tr.remove(); calcPartidaTotals(); });
             tbody.appendChild(tr);
-            const opt = document.createElement('option');
-            opt.value = `${cuenta.codigo} - ${cuenta.descripcion}`;
-            datalist.appendChild(opt);
-        });
-    };
+        };
 
-    // PARTIDAS LOGIC
-    const tbodyPartida = document.getElementById('filas-partida');
-    const totalDebeEl = document.getElementById('total-debe');
-    const totalHaberEl = document.getElementById('total-haber');
+        const calcPartidaTotals = () => {
+            let debe = 0, haber = 0;
+            document.querySelectorAll('.val-debe').forEach(el => debe += parseFloat(el.value) || 0);
+            document.querySelectorAll('.val-haber').forEach(el => haber += parseFloat(el.value) || 0);
+            
+            debe = Math.round(debe * 100) / 100;
+            haber = Math.round(haber * 100) / 100;
+            
+            const totalDebeEl = document.getElementById('total-debe');
+            const totalHaberEl = document.getElementById('total-haber');
+            
+            totalDebeEl.textContent = `Q ${debe.toFixed(2)}`;
+            totalHaberEl.textContent = `Q ${haber.toFixed(2)}`;
 
-    const createRow = () => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td><input type="text" placeholder="Buscar cuenta..." class="input-cuenta" list="cuentas-list"></td><td><input type="number" step="0.01" class="input-debe" placeholder="0.00"></td><td><input type="number" step="0.01" class="input-haber" placeholder="0.00"></td><td style="text-align: center;"><button class="btn-danger btn-remove-row">X</button></td>`;
-        tr.querySelector('.input-debe').addEventListener('input', calculateTotals);
-        tr.querySelector('.input-haber').addEventListener('input', calculateTotals);
-        tr.querySelector('.btn-remove-row').addEventListener('click', () => { tr.remove(); calculateTotals(); });
-        tbodyPartida.appendChild(tr);
-    };
+            if (debe === haber && debe > 0) {
+                totalDebeEl.style.color = 'var(--success)';
+                totalHaberEl.style.color = 'var(--success)';
+            } else {
+                totalDebeEl.style.color = 'var(--danger)';
+                totalHaberEl.style.color = 'var(--danger)';
+            }
+        };
 
-    const calculateTotals = () => {
-        let debe = 0, haber = 0;
-        document.querySelectorAll('.input-debe').forEach(inp => debe += Number(inp.value) || 0);
-        document.querySelectorAll('.input-haber').forEach(inp => haber += Number(inp.value) || 0);
-        debe = Math.round(debe * 100) / 100; haber = Math.round(haber * 100) / 100;
-        totalDebeEl.textContent = `Q ${debe.toFixed(2)}`; totalHaberEl.textContent = `Q ${haber.toFixed(2)}`;
-        const color = (debe === haber && debe > 0) ? 'green' : 'red';
-        totalDebeEl.style.color = color; totalHaberEl.style.color = color;
-    };
+        const savePartida = () => {
+            const fecha = document.getElementById('fecha-partida').value;
+            const desc = document.getElementById('desc-partida').value;
+            
+            if (!fecha || !desc) { alert('Fecha y Concepto son obligatorios.'); return; }
+            
+            let dTotal = 0, hTotal = 0;
+            const detalle = [];
+            
+            document.querySelectorAll('#filas-partida tr').forEach(row => {
+                const cta = row.querySelector('.cta-input').value;
+                const deb = parseFloat(row.querySelector('.val-debe').value) || 0;
+                const hab = parseFloat(row.querySelector('.val-haber').value) || 0;
+                
+                if (cta || deb > 0 || hab > 0) {
+                    detalle.push({ cta, deb, hab });
+                    dTotal += deb; hTotal += hab;
+                }
+            });
+            
+            dTotal = Math.round(dTotal * 100) / 100;
+            hTotal = Math.round(hTotal * 100) / 100;
 
-    document.getElementById('btn-add-row').addEventListener('click', createRow);
+            // Validación estricta del motor contable [cite: 25]
+            if (detalle.length < 2 || dTotal !== hTotal || dTotal === 0) {
+                alert('El asiento no cuadra o está incompleto. El ERP bloquea la transacción.');
+                return;
+            }
 
-    document.getElementById('btn-save-partida').addEventListener('click', () => {
-        const fecha = document.getElementById('fecha-partida').value;
-        const desc = document.getElementById('desc-partida').value;
-        if (!fecha || !desc) { alert('Ingrese fecha y comentarios.'); return; }
-        let dTotal = 0, hTotal = 0; const detalle = [];
-        document.querySelectorAll('#filas-partida tr').forEach(fila => {
-            const cta = fila.querySelector('.input-cuenta').value;
-            const deb = parseFloat(fila.querySelector('.input-debe').value) || 0;
-            const hab = parseFloat(fila.querySelector('.input-haber').value) || 0;
-            if (cta || deb > 0 || hab > 0) { detalle.push({ cta, deb, hab }); dTotal += deb; hTotal += hab; }
-        });
-        dTotal = Math.round(dTotal * 100) / 100; hTotal = Math.round(hTotal * 100) / 100;
-        if (detalle.length === 0 || dTotal !== hTotal || dTotal === 0) { alert('Asiento inválido o descuadrado.'); return; }
-        const partidas = JSON.parse(localStorage.getItem('sisconta_partidas_grupodent')) || [];
-        partidas.push({ id: Date.now(), fecha, desc, detalle, total: dTotal });
-        localStorage.setItem('sisconta_partidas_grupodent', JSON.stringify(partidas));
-        alert('Asiento guardado.');
-        document.getElementById('fecha-partida').value = ''; document.getElementById('desc-partida').value = '';
-        tbodyPartida.innerHTML = ''; createRow(); createRow(); calculateTotals(); actualizarDashboard();
-    });
+            const dbKey = `erp_partidas_${state.company.replace(/\s/g, '')}`;
+            const partidas = JSON.parse(localStorage.getItem(dbKey)) || [];
+            partidas.push({ id: `TRX-${Date.now()}`, fecha, desc, detalle, total: dTotal, user: state.currentUser });
+            localStorage.setItem(dbKey, JSON.stringify(partidas));
+            
+            alert('Póliza registrada correctamente en el Libro Diario.');
+            resetPartidaDiario();
+            updateDashboard();
+        };
 
-    // CONSULTA LOGIC
-    const renderConsultaPartidas = (filtro = '') => {
-        const tbody = document.getElementById('filas-consulta-partidas');
-        tbody.innerHTML = '';
-        const partidas = JSON.parse(localStorage.getItem('sisconta_partidas_grupodent')) || [];
-        partidas.filter(p => p.desc.toLowerCase().includes(filtro.toLowerCase()) || p.fecha.includes(filtro))
-               .reverse().forEach(p => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${p.id}</td><td>${p.fecha}</td><td>${p.desc}</td><td>Q ${parseFloat(p.total).toFixed(2)}</td><td style="text-align: center;"><button class="sap-btn" onclick="verDetallePartida(${p.id})">Ver</button></td>`;
-            tbody.appendChild(tr);
-        });
-    };
-    document.getElementById('search-partidas').addEventListener('input', (e) => renderConsultaPartidas(e.target.value));
-    window.verDetallePartida = (id) => {
-        const p = (JSON.parse(localStorage.getItem('sisconta_partidas_grupodent')) || []).find(x => x.id === id);
-        if(p) alert(`Asiento: ${p.desc}\nTotal: Q${p.total.toFixed(2)}`); // Simplificado para brevedad
-    };
+        // =========================================
+        // UI & RENDER METHODS
+        // =========================================
+        const renderNomenclatura = () => {
+            const tbody = document.getElementById('tabla-nomenclatura-body');
+            const datalist = document.getElementById('cuentas-list');
+            tbody.innerHTML = ''; datalist.innerHTML = '';
+            
+            nomenclaturaData.forEach(cta => {
+                // Table
+                const padding = (parseInt(cta.nivel) - 1) * 20;
+                const tr = document.createElement('tr');
+                const isTitle = cta.pd === 'P'; // Cuenta Padre
+                tr.innerHTML = `
+                    <td class="font-mono ${isTitle ? 'highlight-input' : ''}">${cta.codigo}</td>
+                    <td style="padding-left: ${padding + 16}px; ${isTitle ? 'font-weight: bold; color: var(--primary);' : ''}">${cta.descripcion}</td>
+                    <td>${cta.da}</td><td>${cta.pd}</td><td>${cta.nivel}</td>
+                `;
+                tbody.appendChild(tr);
 
-    // CIERRES LOGIC
-    const inEfectivo = document.getElementById('cierre-efectivo');
-    const inTransfers = document.getElementById('cierre-transferencias');
-    const inTotal = document.getElementById('cierre-total');
-    const calcCierre = () => { inTotal.value = `Q ${( (parseFloat(inEfectivo.value) || 0) + (parseFloat(inTransfers.value) || 0) ).toFixed(2)}`; };
-    inEfectivo.addEventListener('input', calcCierre); inTransfers.addEventListener('input', calcCierre);
+                // Datalist (Solo de detalle)
+                if(!isTitle) {
+                    const opt = document.createElement('option');
+                    opt.value = `${cta.codigo} - ${cta.descripcion}`;
+                    datalist.appendChild(opt);
+                }
+            });
+        };
 
-    const actualizarDashboard = () => {
-        const partidas = JSON.parse(localStorage.getItem('sisconta_partidas_grupodent')) || [];
-        const cont = document.getElementById('dash-asientos'); if(cont) cont.textContent = partidas.length;
-    };
+        const updateDashboard = () => {
+            const dbKey = `erp_partidas_${state.company.replace(/\s/g, '')}`;
+            const partidas = JSON.parse(localStorage.getItem(dbKey)) || [];
+            document.getElementById('dash-asientos').textContent = partidas.length;
+            // Cálculos ficticios para mostrar datos
+            let totalMovimientos = partidas.reduce((acc, p) => acc + p.total, 0);
+            document.getElementById('dash-caja').textContent = `Q ${totalMovimientos.toFixed(2)}`;
+        };
+
+        const renderLibroDiario = (filter = '') => {
+            const tbody = document.getElementById('filas-consulta-partidas');
+            tbody.innerHTML = '';
+            const dbKey = `erp_partidas_${state.company.replace(/\s/g, '')}`;
+            const partidas = JSON.parse(localStorage.getItem(dbKey)) || [];
+            
+            partidas.filter(p => p.desc.toLowerCase().includes(filter.toLowerCase()) || p.fecha.includes(filter))
+                .reverse().forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="font-mono" style="font-size:12px;">${p.id}</td>
+                        <td>${p.fecha}</td>
+                        <td>${p.desc}</td>
+                        <td class="font-mono">Q ${p.total.toFixed(2)}</td>
+                        <td style="text-align: center;"><button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidad de auditoría: ${p.id}')">Ver Detalle</button></td>
+                    `;
+                    tbody.appendChild(tr);
+            });
+        };
+
+        // =========================================
+        // EVENT LISTENERS INIT
+        // =========================================
+        const initEvents = () => {
+            document.getElementById('btn-login').addEventListener('click', handleLogin);
+            document.getElementById('pass').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+            document.getElementById('btn-sel-ok').addEventListener('click', startApp);
+            
+            // Sidebar Navigation
+            document.querySelectorAll('.menu-item:not(.disabled)').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                    document.querySelectorAll('.module').forEach(m => m.classList.add('hidden'));
+                    
+                    e.currentTarget.classList.add('active');
+                    const target = e.currentTarget.getAttribute('data-target');
+                    document.getElementById(target).classList.remove('hidden');
+                    
+                    if(target === 'consulta-partidas') renderLibroDiario();
+                });
+            });
+
+            // Asientos
+            document.getElementById('btn-add-row').addEventListener('click', addPartidaRow);
+            document.getElementById('btn-save-partida').addEventListener('click', savePartida);
+            document.getElementById('search-partidas').addEventListener('input', (e) => renderLibroDiario(e.target.value));
+
+            // Cierres Automáticos
+            const calcCierre = () => {
+                const efe = parseFloat(document.getElementById('cierre-efectivo').value) || 0;
+                const trf = parseFloat(document.getElementById('cierre-transferencias').value) || 0;
+                document.getElementById('cierre-total').value = `Q ${(efe + trf).toFixed(2)}`;
+            };
+            document.getElementById('cierre-efectivo').addEventListener('input', calcCierre);
+            document.getElementById('cierre-transferencias').addEventListener('input', calcCierre);
+        };
+
+        return { init: initEvents };
+    })();
+
+    EstucontaERP.init();
 });

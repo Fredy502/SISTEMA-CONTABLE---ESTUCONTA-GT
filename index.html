@@ -3,256 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Contable Estuconta</title>
+    <title>Estuconta GT - ERP Corporativo</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
 
-    <div id="sap-login-screen" class="sap-fullscreen-overlay active">
-        <div class="sap-window sap-login-window">
-            <div class="sap-window-header">
-                <span>Iniciar sesión</span>
-                <div class="sap-window-controls">_ 🗙</div>
+    <div id="login-screen" class="overlay active">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>ESTUCONTA <span>GT</span></h2>
+                <p>Plataforma Financiera Corporativa</p>
             </div>
-            <div class="sap-window-content sap-flex-col">
-                <div class="sap-logo-area">
-                    <div class="sap-logo-placeholder">Estuconta</div>
-                    <div class="sap-system-name">Sisconta 1.1</div>
+            <div class="auth-body">
+                <div class="input-group">
+                    <label for="user"><i class="ri-user-line"></i> Usuario</label>
+                    <input type="text" id="user" placeholder="Ingrese su código de usuario" autofocus>
                 </div>
-                
-                <div class="sap-form-container">
-                    <div class="sap-form-row">
-                        <label for="sap-user">Código de usuario</label>
-                        <input type="text" id="sap-user" autofocus>
-                    </div>
-                    <div class="sap-form-row mt-1">
-                        <label for="sap-pass">Contraseña</label>
-                        <input type="password" id="sap-pass">
-                    </div>
+                <div class="input-group">
+                    <label for="pass"><i class="ri-lock-line"></i> Contraseña</label>
+                    <input type="password" id="pass" placeholder="••••••••">
                 </div>
-
-                <div class="sap-btn-group-right mt-2">
-                    <button id="btn-login-cancel" class="sap-btn">Cancelar</button>
-                    <button id="btn-login-ok" class="sap-btn sap-btn-primary">Aceptar</button>
-                </div>
+                <button id="btn-login" class="btn btn-primary w-100">Iniciar Sesión</button>
             </div>
-            <div class="sap-window-footer">Contabilidad Integrada - Guatemala</div>
+            <div class="auth-footer">
+                <p>Seguridad y Trazabilidad Total</p>
+            </div>
         </div>
     </div>
 
-    <div id="sap-selection-screen" class="sap-fullscreen-overlay">
-        <div class="sap-window sap-selection-window">
-            <div class="sap-window-header">
-                <span>Seleccionar empresa y periodo</span>
-                <div class="sap-window-controls">_ 🗙</div>
+    <div id="selection-screen" class="overlay">
+        <div class="auth-card selection-card">
+            <div class="auth-header">
+                <h2>Contexto Corporativo</h2>
+                <p>Seleccione la sociedad y el periodo contable</p>
             </div>
-            <div class="sap-window-content">
-                <p class="sap-instruction-text">Seleccione la sociedad y el periodo contable en el que desea trabajar:</p>
-                
-                <div class="sap-form-container mt-1">
-                    <div class="sap-form-row">
-                        <label for="sel-empresa">Sociedad / Empresa</label>
-                        <select id="sel-empresa">
-                            </select>
+            <div class="auth-body">
+                <div class="input-group">
+                    <label for="sel-empresa">Sociedad / Empresa</label>
+                    <select id="sel-empresa"></select>
+                </div>
+                <div class="row">
+                    <div class="input-group half">
+                        <label for="sel-anio">Ejercicio</label>
+                        <select id="sel-anio"></select>
                     </div>
-                    <div class="sap-form-row mt-1">
-                        <label for="sel-anio">Ejercicio (Año)</label>
-                        <select id="sel-anio">
-                            </select>
-                    </div>
-                    <div class="sap-form-row mt-1">
-                        <label for="sel-mes">Periodo (Mes)</label>
-                        <select id="sel-mes">
-                            </select>
+                    <div class="input-group half">
+                        <label for="sel-mes">Periodo</label>
+                        <select id="sel-mes"></select>
                     </div>
                 </div>
-
-                <div class="sap-btn-group-right mt-2">
-                    <button id="btn-sel-cancel" class="sap-btn">Cancelar</button>
-                    <button id="btn-sel-ok" class="sap-btn sap-btn-primary">Aceptar</button>
+                <div class="button-group">
+                    <button id="btn-sel-cancel" class="btn btn-secondary">Cancelar</button>
+                    <button id="btn-sel-ok" class="btn btn-primary">Entrar al Sistema</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="main-app-container" class="sap-app-flow-hidden">
-        <header class="sap-top-menu">
-            <div class="menu-item">Archivo</div>
-            <div class="menu-item">Editar</div>
-            <div class="menu-item">Vista</div>
-            <div class="menu-item">Datos</div>
-            <div class="menu-item">Módulos</div>
-            <div class="menu-item">Herramientas</div>
-            <div class="menu-item">Ayuda</div>
-            <div class="sap-context-header" id="sap-context-display">GrupoDent | admin_gd | Abril 2026</div>
-        </header>
+    <div id="main-app" class="app-layout hidden">
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>ESTUCONTA</h2>
+            </div>
+            <nav class="menu">
+                <p class="menu-label">NÚCLEO FINANCIERO</p>
+                <a href="#" class="menu-item active" data-target="dashboard"><i class="ri-dashboard-line"></i> Dashboard</a>
+                <a href="#" class="menu-item" data-target="nomenclatura"><i class="ri-list-check"></i> Plan de Cuentas</a>
+                <a href="#" class="menu-item" data-target="partidas"><i class="ri-book-mark-line"></i> Asiento de Diario</a>
+                <a href="#" class="menu-item" data-target="consulta-partidas"><i class="ri-search-eye-line"></i> Libro Diario</a>
+                
+                <p class="menu-label mt-2">OPERACIONES</p>
+                <a href="#" class="menu-item" data-target="cierres"><i class="ri-safe-2-line"></i> Cierres de Caja</a>
+                <a href="#" class="menu-item disabled"><i class="ri-shopping-cart-2-line"></i> Ventas y POS</a>
+                <a href="#" class="menu-item disabled"><i class="ri-bank-line"></i> Bancos y Tesorería</a>
+                
+                <p class="menu-label mt-2">CUMPLIMIENTO</p>
+                <a href="#" class="menu-item disabled"><i class="ri-file-paper-2-line"></i> Impuestos SAT</a>
+                <a href="#" class="menu-item disabled"><i class="ri-shield-check-line"></i> Auditoría Fiscal</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btn-logout" class="btn-text"><i class="ri-logout-box-r-line"></i> Cerrar Sesión</button>
+            </div>
+        </aside>
 
-        <div class="sap-toolbar">
-            <div class="toolbar-btn">🏠</div>
-            <div class="toolbar-btn">🔍</div>
-            <div class="toolbar-btn">💾</div>
-            <div class="toolbar-btn">📄</div>
-        </div>
-
-        <div class="app-content-layout">
-            <aside class="sap-sidebar">
-                <div class="sidebar-header">Menú Principal</div>
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">Finanzas</button>
-                        <div class="accordion-content">
-                            <div class="nav-item" data-target="nomenclatura">Plan de Cuentas</div>
-                            <div class="nav-item" data-target="partidas">Asiento (Partida Diario)</div>
-                        </div>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-bar">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Búsqueda global (Transacciones, Cuentas, Clientes)...">
+                </div>
+                <div class="user-context">
+                    <div class="context-badge">
+                        <i class="ri-building-line"></i> <span id="ctx-empresa">Empresa</span>
                     </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Gestión Bancaria</button>
-                        <div class="accordion-content">
-                            <div class="nav-item" data-target="cierres">Cierres y Arqueo (Pagos Recibidos)</div>
-                        </div>
+                    <div class="context-badge highlight">
+                        <i class="ri-calendar-line"></i> <span id="ctx-periodo">Periodo</span>
                     </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Informes</button>
-                        <div class="accordion-content">
-                            <div class="nav-item active" data-target="dashboard">Cockpit (Dashboard)</div>
-                            <div class="nav-item" data-target="consulta-partidas">Consulta de Asientos</div>
-                        </div>
+                    <div class="user-avatar">
+                        <div class="avatar-circle"><i class="ri-user-line"></i></div>
+                        <span id="ctx-usuario">Usuario</span>
                     </div>
                 </div>
-            </aside>
+            </header>
 
-            <main class="sap-work-area">
+            <div class="content-area">
                 
                 <section id="dashboard" class="module active">
-                    <div class="window-header">Cockpit General</div>
-                    <div class="window-content">
-                        <div class="cards-grid">
-                            <div class="card"><h3>Saldo Caja y Bancos</h3><p id="dash-caja">Q 0.00</p></div>
-                            <div class="card"><h3>Ingresos Pendientes</h3><p id="dash-ingresos">Q 0.00</p></div>
-                            <div class="card"><h3>Asientos Registrados</h3><p id="dash-asientos">0</p></div>
+                    <div class="module-header">
+                        <h2>Cockpit Gerencial</h2>
+                        <p>Visión general de la sociedad en tiempo real</p>
+                    </div>
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon bg-blue"><i class="ri-wallet-3-line"></i></div>
+                            <div class="kpi-data">
+                                <h3>Saldo Caja y Bancos</h3>
+                                <p id="dash-caja">Q 0.00</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon bg-green"><i class="ri-arrow-right-down-line"></i></div>
+                            <div class="kpi-data">
+                                <h3>Ingresos Pendientes</h3>
+                                <p id="dash-ingresos">Q 0.00</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon bg-purple"><i class="ri-file-list-3-line"></i></div>
+                            <div class="kpi-data">
+                                <h3>Asientos Registrados</h3>
+                                <p id="dash-asientos">0</p>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <section id="nomenclatura" class="module">
-                    <div class="window-header">Plan de Cuentas (Nomenclatura)</div>
-                    <div class="window-content">
-                        <div class="table-container">
-                            <table id="tabla-nomenclatura" class="sap-table">
-                                <thead>
-                                    <tr>
-                                        <th>Código Acum.</th>
-                                        <th>Nombre de la Cuenta</th>
-                                        <th>D/A</th>
-                                        <th>P/D</th>
-                                        <th>Nivel</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                <section id="nomenclatura" class="module hidden">
+                    <div class="module-header">
+                        <h2>Plan de Cuentas Contables</h2>
+                        <p>Estructura maestra de clasificación financiera</p>
+                    </div>
+                    <div class="card table-card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre de la Cuenta</th>
+                                    <th>D/A</th>
+                                    <th>P/D</th>
+                                    <th>Nivel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-nomenclatura-body"></tbody>
+                        </table>
                     </div>
                 </section>
 
-                <section id="partidas" class="module">
-                    <div class="window-header">Registro en el Diario (Asiento de Diario)</div>
-                    <div class="window-content form-panel">
-                        <div class="form-row">
+                <section id="partidas" class="module hidden">
+                    <div class="module-header">
+                        <h2>Registro de Asiento (Póliza de Diario)</h2>
+                        <p>Toda transacción debe cuadrar perfectamente el Debe y el Haber[cite: 25].</p>
+                    </div>
+                    <div class="card">
+                        <div class="form-grid">
                             <div class="input-group">
                                 <label>Fecha de Contabilización</label>
                                 <input type="date" id="fecha-partida" required>
                             </div>
-                            <div class="input-group" style="flex: 2;">
-                                <label>Comentarios</label>
-                                <input type="text" id="desc-partida" placeholder="Concepto del asiento..." required>
+                            <div class="input-group span-2">
+                                <label>Concepto / Comentarios</label>
+                                <input type="text" id="desc-partida" placeholder="Descripción detallada del asiento..." required>
                             </div>
                         </div>
-                        <div class="table-container mt-1" style="height: 350px;">
-                            <table class="sap-table" id="tabla-detalle-partida">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 50%;">Número/Nombre de Cta. Mayor</th>
-                                        <th>Débito</th>
-                                        <th>Crédito</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="filas-partida"></tbody>
-                                <tfoot>
-                                    <tr class="totals-row">
-                                        <td style="text-align: right; font-weight: bold;">Totales:</td>
-                                        <td id="total-debe">Q 0.00</td>
-                                        <td id="total-haber">Q 0.00</td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <datalist id="cuentas-list"></datalist>
-                        </div>
-                        <div class="btn-group mt-1">
-                            <button id="btn-add-row" class="sap-btn">+ Añadir Línea</button>
-                            <button id="btn-save-partida" class="sap-btn sap-btn-primary">Crear</button>
+                        
+                        <table class="data-table mt-2" id="tabla-detalle-partida">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%;">Cuenta Mayor</th>
+                                    <th>Débito (Q)</th>
+                                    <th>Crédito (Q)</th>
+                                    <th style="text-align: center;"><i class="ri-settings-4-line"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="filas-partida"></tbody>
+                            <tfoot>
+                                <tr class="totals-row">
+                                    <td class="text-right"><strong>Totales Cuadrados:</strong></td>
+                                    <td id="total-debe" class="font-mono">Q 0.00</td>
+                                    <td id="total-haber" class="font-mono">Q 0.00</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <datalist id="cuentas-list"></datalist>
+
+                        <div class="actions-bar mt-2">
+                            <button id="btn-add-row" class="btn btn-secondary"><i class="ri-add-line"></i> Añadir Fila</button>
+                            <button id="btn-save-partida" class="btn btn-primary"><i class="ri-save-line"></i> Contabilizar Asiento</button>
                         </div>
                     </div>
                 </section>
 
-                <section id="consulta-partidas" class="module">
-                    <div class="window-header">Consulta de Asientos (Libro Diario)</div>
-                    <div class="window-content form-panel">
-                        <div class="form-row">
-                            <div class="input-group" style="flex: 1;">
-                                <label>Buscar (por Concepto o Fecha)</label>
-                                <input type="text" id="search-partidas" placeholder="Ej. Planilla, Ajuste, 2026-04...">
-                            </div>
+                <section id="consulta-partidas" class="module hidden">
+                    <div class="module-header">
+                        <h2>Libro Diario / Consulta</h2>
+                        <p>Trazabilidad total de operaciones contables[cite: 17].</p>
+                    </div>
+                    <div class="card">
+                        <div class="input-group w-50 mb-2">
+                            <i class="ri-search-line search-icon-input"></i>
+                            <input type="text" id="search-partidas" placeholder="Buscar por concepto o fecha (Ej. 2026-04)..." class="with-icon">
                         </div>
-                        <div class="table-container mt-1" style="height: 400px;">
-                            <table class="sap-table" id="tabla-consulta-partidas">
-                                <thead>
-                                    <tr>
-                                        <th>ID Asiento</th>
-                                        <th>Fecha</th>
-                                        <th>Comentarios</th>
-                                        <th>Total (Q)</th>
-                                        <th style="text-align: center;">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="filas-consulta-partidas"></tbody>
-                            </table>
-                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Trx</th>
+                                    <th>Fecha</th>
+                                    <th>Comentarios</th>
+                                    <th>Total (Q)</th>
+                                    <th style="text-align: center;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="filas-consulta-partidas"></tbody>
+                        </table>
                     </div>
                 </section>
 
-                <section id="cierres" class="module">
-                    <div class="window-header">Sistema de Cierres Diarios - GrupoDent</div>
-                    <div class="window-content form-panel">
-                        <p style="margin-bottom: 15px;">Ingrese los montos validados para el arqueo de fondos diario.</p>
-                        <div class="form-row">
-                            <div class="input-group">
-                                <label>Efectivo (Q)</label>
-                                <input type="number" step="0.01" id="cierre-efectivo" placeholder="0.00">
-                            </div>
+                <section id="cierres" class="module hidden">
+                    <div class="module-header">
+                        <h2>Arqueo y Cierre Diario</h2>
+                        <p>Validación de fondos operativos</p>
+                    </div>
+                    <div class="card w-50">
+                        <div class="input-group mb-2">
+                            <label>Efectivo Físico (Q)</label>
+                            <input type="number" step="0.01" id="cierre-efectivo" placeholder="0.00">
                         </div>
-                        <div class="form-row mt-1">
-                            <div class="input-group">
-                                <label>Transferencias Bancarias (Q)</label>
-                                <input type="number" step="0.01" id="cierre-transferencias" placeholder="0.00">
-                            </div>
+                        <div class="input-group mb-2">
+                            <label>Transferencias / POS (Q)</label>
+                            <input type="number" step="0.01" id="cierre-transferencias" placeholder="0.00">
                         </div>
-                        <hr class="sap-hr mt-1">
-                        <div class="form-row mt-1">
-                            <div class="input-group">
-                                <label style="font-weight: bold;">Total del Cierre</label>
-                                <input type="text" id="cierre-total" readonly value="Q 0.00" class="readonly-input">
-                            </div>
+                        <hr>
+                        <div class="input-group mt-2">
+                            <label>Total Arqueado</label>
+                            <input type="text" id="cierre-total" readonly value="Q 0.00" class="readonly highlight-input">
                         </div>
-                        <div class="btn-group mt-1">
-                            <button class="sap-btn sap-btn-primary">Procesar Cierre</button>
-                        </div>
+                        <button class="btn btn-primary mt-2 w-100"><i class="ri-lock-check-line"></i> Procesar Cierre</button>
                     </div>
                 </section>
-            </main>
-        </div>
+
+            </div>
+        </main>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
