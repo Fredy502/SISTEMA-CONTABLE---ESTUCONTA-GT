@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estuconta GT - ERP Corporativo</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Iconos de la interfaz -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
 
+    <!-- FASE 1: LOGIN -->
     <div id="login-screen" class="overlay active">
         <div class="auth-card">
             <div class="auth-header">
@@ -32,6 +34,7 @@
         </div>
     </div>
 
+    <!-- FASE 2: SELECCIÓN DE EMPRESA -->
     <div id="selection-screen" class="overlay">
         <div class="auth-card selection-card">
             <div class="auth-header">
@@ -61,33 +64,51 @@
         </div>
     </div>
 
+    <!-- FASE 3: APLICACIÓN PRINCIPAL -->
     <div id="main-app" class="app-layout hidden">
+        <!-- Sidebar Mejorado con la Nueva Estructura -->
         <aside class="sidebar">
             <div class="brand">
                 <h2>ESTUCONTA</h2>
             </div>
             <nav class="menu">
-                <p class="menu-label">NÚCLEO FINANCIERO</p>
+                
+                <p class="menu-label">CONFIGURACIÓN Y SISTEMA</p>
+                <a href="#" class="menu-item disabled"><i class="ri-coreos-line"></i> Núcleo del sistema</a>
+                <a href="#" class="menu-item disabled"><i class="ri-settings-4-line"></i> Configuración general</a>
+                <a href="#" class="menu-item disabled"><i class="ri-shield-user-line"></i> Seguridad y usuarios</a>
+                <a href="#" class="menu-item disabled"><i class="ri-database-2-line"></i> Maestros</a>
+
+                <p class="menu-label mt-2">FINANZAS Y CONTABILIDAD</p>
                 <a href="#" class="menu-item active" data-target="dashboard"><i class="ri-dashboard-line"></i> Dashboard</a>
                 <a href="#" class="menu-item" data-target="nomenclatura"><i class="ri-list-check"></i> Plan de Cuentas</a>
-                <a href="#" class="menu-item" data-target="partidas"><i class="ri-book-mark-line"></i> Asiento de Diario</a>
+                <a href="#" class="menu-item" data-target="partidas"><i class="ri-book-mark-line"></i> Contabilidad (Asientos)</a>
                 <a href="#" class="menu-item" data-target="consulta-partidas"><i class="ri-search-eye-line"></i> Libro Diario</a>
-                
-                <p class="menu-label mt-2">OPERACIONES</p>
-                <a href="#" class="menu-item" data-target="cierres"><i class="ri-safe-2-line"></i> Cierres de Caja</a>
-                <a href="#" class="menu-item disabled"><i class="ri-shopping-cart-2-line"></i> Ventas y POS</a>
-                <a href="#" class="menu-item disabled"><i class="ri-bank-line"></i> Bancos y Tesorería</a>
-                
-                <p class="menu-label mt-2">CUMPLIMIENTO</p>
-                <a href="#" class="menu-item disabled"><i class="ri-file-paper-2-line"></i> Impuestos SAT</a>
-                <a href="#" class="menu-item disabled"><i class="ri-shield-check-line"></i> Auditoría Fiscal</a>
+                <a href="#" class="menu-item disabled"><i class="ri-bank-line"></i> Bancos</a>
+                <a href="#" class="menu-item" data-target="cierres"><i class="ri-safe-2-line"></i> Tesorería (Cierres)</a>
+
+                <p class="menu-label mt-2">OPERACIONES Y LOGÍSTICA</p>
+                <a href="#" class="menu-item disabled"><i class="ri-shopping-cart-2-line"></i> Ventas</a>
+                <a href="#" class="menu-item disabled"><i class="ri-shopping-bag-3-line"></i> Compras</a>
+                <a href="#" class="menu-item disabled"><i class="ri-box-3-line"></i> Inventario</a>
+                <a href="#" class="menu-item disabled"><i class="ri-tools-line"></i> Producción</a>
+
+                <p class="menu-label mt-2">GESTIÓN EMPRESARIAL</p>
+                <a href="#" class="menu-item disabled"><i class="ri-contacts-book-2-line"></i> CRM</a>
+                <a href="#" class="menu-item disabled"><i class="ri-team-line"></i> RRHH</a>
+                <a href="#" class="menu-item disabled"><i class="ri-bar-chart-box-line"></i> Reportería</a>
+                <a href="#" class="menu-item disabled"><i class="ri-plug-line"></i> Integraciones</a>
+                <a href="#" class="menu-item disabled"><i class="ri-shield-check-line"></i> Auditoría</a>
+
             </nav>
             <div class="sidebar-footer">
                 <button id="btn-logout" class="btn-text"><i class="ri-logout-box-r-line"></i> Cerrar Sesión</button>
             </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
+            <!-- Topbar -->
             <header class="topbar">
                 <div class="search-bar">
                     <i class="ri-search-line"></i>
@@ -107,8 +128,10 @@
                 </div>
             </header>
 
+            <!-- Modules (Área de trabajo) -->
             <div class="content-area">
                 
+                <!-- Dashboard -->
                 <section id="dashboard" class="module active">
                     <div class="module-header">
                         <h2>Cockpit Gerencial</h2>
@@ -139,6 +162,7 @@
                     </div>
                 </section>
 
+                <!-- Plan de Cuentas -->
                 <section id="nomenclatura" class="module hidden">
                     <div class="module-header">
                         <h2>Plan de Cuentas Contables</h2>
@@ -160,10 +184,11 @@
                     </div>
                 </section>
 
+                <!-- Asiento de Diario -->
                 <section id="partidas" class="module hidden">
                     <div class="module-header">
                         <h2>Registro de Asiento (Póliza de Diario)</h2>
-                        <p>Toda transacción debe cuadrar perfectamente el Debe y el Haber[cite: 25].</p>
+                        <p>Toda transacción debe cuadrar perfectamente el Debe y el Haber.</p>
                     </div>
                     <div class="card">
                         <div class="form-grid">
@@ -205,10 +230,11 @@
                     </div>
                 </section>
 
+                <!-- Consulta de Asientos -->
                 <section id="consulta-partidas" class="module hidden">
                     <div class="module-header">
                         <h2>Libro Diario / Consulta</h2>
-                        <p>Trazabilidad total de operaciones contables[cite: 17].</p>
+                        <p>Trazabilidad total de operaciones contables.</p>
                     </div>
                     <div class="card">
                         <div class="input-group w-50 mb-2">
@@ -230,10 +256,11 @@
                     </div>
                 </section>
 
+                <!-- Cierres -->
                 <section id="cierres" class="module hidden">
                     <div class="module-header">
-                        <h2>Arqueo y Cierre Diario</h2>
-                        <p>Validación de fondos operativos</p>
+                        <h2>Arqueo y Tesorería</h2>
+                        <p>Validación de fondos operativos y cierres de caja</p>
                     </div>
                     <div class="card w-50">
                         <div class="input-group mb-2">
