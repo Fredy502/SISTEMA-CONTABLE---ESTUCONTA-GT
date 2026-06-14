@@ -1,0 +1,147 @@
+/* Paleta estilo SAP Business One clásico */
+:root {
+    --sap-bg: #EAECEF;
+    --sap-blue: #00509E;
+    --sap-blue-dark: #003366;
+    --sap-header-gradient: linear-gradient(to bottom, #7296B8, #4B6E96);
+    --sap-border: #A9B4C2;
+    --sap-window-bg: #FFFFFF;
+    --sap-text: #333333;
+    --sap-highlight: #FFE599; /* Amarillo SAP al enfocar */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma, Arial, sans-serif; font-size: 12px; }
+
+body { background-color: var(--sap-bg); color: var(--sap-text); overflow: hidden; height: 100vh;}
+
+/* Estilos de Ventana y Pantalla Completa */
+.sap-fullscreen-overlay { 
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background-color: var(--sap-bg); z-index: 200; justify-content: center; align-items: center; 
+}
+.sap-fullscreen-overlay.active { display: flex; }
+
+.sap-window { 
+    border: 1px solid var(--sap-blue-dark); background-color: var(--sap-window-bg); 
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3); border-radius: 2px; overflow: hidden; 
+}
+.sap-window-header { 
+    background: var(--sap-header-gradient); color: white; padding: 6px 10px; 
+    font-weight: bold; font-size: 13px; display: flex; justify-content: space-between; 
+}
+.sap-window-controls { font-family: monospace; cursor: default; }
+.sap-window-content { padding: 20px; }
+.sap-window-footer { 
+    padding: 5px 10px; font-size: 11px; background-color: #F0F0F0; 
+    color: #666; border-top: 1px solid #CCC; text-align: right; 
+}
+
+/* Tamaños específicos de Ventanas SAP */
+.sap-login-window { width: 420px; }
+.sap-selection-window { width: 550px; }
+
+/* Estilos de Login */
+.sap-logo-area { text-align: center; margin-bottom: 25px; border-bottom: 2px solid var(--sap-blue); padding-bottom: 15px; }
+.sap-logo-placeholder { font-size: 28px; font-weight: bold; color: var(--sap-blue-dark); letter-spacing: -1px; }
+.sap-system-name { font-size: 14px; color: #666; font-style: italic; }
+.sap-instruction-text { color: #003366; margin-bottom: 15px; font-size: 13px; font-weight: bold;}
+
+/* Formularios y Inputs */
+.sap-flex-col { display: flex; flex-direction: column; }
+.sap-form-container { width: 100%; }
+.sap-form-row { display: flex; align-items: center; gap: 10px; }
+.sap-form-row label { width: 110px; text-align: right; color: var(--sap-blue-dark); font-weight: bold;}
+.sap-form-row input, .sap-form-row select { 
+    flex: 1; padding: 4px 6px; border: 1px solid var(--sap-border); 
+    background-color: #FFF; outline: none; border-radius: 1px;
+}
+.sap-form-row input:focus, .sap-form-row select:focus { border-color: var(--sap-blue); background-color: #FFFFE0; }
+
+/* Botones SAP */
+.sap-btn-group-right { display: flex; gap: 8px; justify-content: flex-end; width: 100%; }
+.sap-btn { 
+    padding: 4px 18px; border: 1px solid #8A97A8; min-width: 85px; cursor: pointer;
+    background: linear-gradient(to bottom, #F8F9FA, #DCE1E6); color: #333; font-weight: bold; 
+}
+.sap-btn:hover { background: linear-gradient(to bottom, #E8EAEC, #C8D1D8); }
+.sap-btn-primary { background: linear-gradient(to bottom, #7296B8, #4B6E96); color: white; border-color: #334F73; }
+.sap-btn-primary:hover { background: linear-gradient(to bottom, #5F83A8, #3D5F85); }
+
+/* Estilos para ocultar la App Principal al inicio */
+.sap-app-flow-hidden { display: none; }
+.sap-app-flow-hidden.active { display: block; height: 100vh; }
+
+/* ========================================= */
+/* ESTILOS ANTERIORES DE LA APP (Ajustados)  */
+/* ========================================= */
+.sap-top-menu { 
+    background: linear-gradient(to bottom, #FFFFFF, #E4E5E7); display: flex; 
+    border-bottom: 1px solid var(--sap-border); padding: 2px 10px; align-items: center; position: relative;
+}
+.menu-item { padding: 4px 10px; cursor: pointer; }
+.menu-item:hover { background-color: #D3E3F5; border-radius: 2px; }
+.sap-context-header { 
+    position: absolute; right: 20px; color: var(--sap-blue-dark); 
+    font-weight: bold; font-style: italic; font-size: 11px;
+}
+
+.sap-toolbar { 
+    background-color: #F4F5F7; display: flex; padding: 5px 10px; 
+    border-bottom: 1px solid var(--sap-border); gap: 12px; align-items: center; 
+}
+.toolbar-btn { cursor: pointer; padding: 3px; font-size: 16px; opacity: 0.7; }
+.toolbar-btn:hover { opacity: 1; background-color: #D3E3F5; }
+
+.app-content-layout { display: flex; height: calc(100vh - 58px); }
+
+.sap-sidebar { width: 260px; background-color: var(--sap-window-bg); border-right: 1px solid var(--sap-border); display: flex; flex-direction: column; }
+.sidebar-header { background: var(--sap-header-gradient); color: white; padding: 8px 10px; font-weight: bold; font-size: 13px;}
+
+.accordion { flex: 1; overflow-y: auto; padding: 5px; }
+.accordion-header { 
+    width: 100%; text-align: left; background: none; border: none; padding: 8px 5px; 
+    cursor: pointer; font-weight: bold; color: var(--sap-blue-dark); font-size: 12px;
+}
+.accordion-header:hover { background-color: #F0F4F9; }
+.accordion-header::before { content: '📁'; margin-right: 7px; font-size: 13px; }
+.accordion-content { display: none; padding-left: 22px; flex-direction: column; }
+.accordion-content.show { display: flex; }
+.nav-item { padding: 6px 5px; cursor: pointer; color: var(--sap-text); border-radius: 2px;}
+.nav-item:hover { background-color: var(--sap-highlight); }
+.nav-item.active { font-weight: bold; color: var(--sap-blue); background-color: #D3E3F5;}
+
+.sap-work-area { flex: 1; padding: 15px; background-color: var(--sap-bg); overflow-y: auto; position: relative; }
+.module { 
+    display: none; width: 100%; max-width: 950px; margin: 0 auto; 
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1); border: 1px solid var(--sap-blue-dark); 
+    background-color: var(--sap-window-bg); 
+}
+.module.active { display: block; animation: fadeIn 0.3s ease;}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.window-content { padding: 15px; }
+
+/* Dashboard Cards */
+.cards-grid { display: flex; gap: 15px; }
+.card { border: 1px solid var(--sap-border); padding: 15px; width: 33.33%; background: #F9FAFC; text-align: center; border-radius: 2px;}
+.card h3 { color: var(--sap-blue-dark); margin-bottom: 10px; font-size: 13px; }
+.card p { font-size: 20px; font-weight: bold; color: #333; }
+
+/* Tablas */
+.table-container { border: 1px solid var(--sap-border); overflow-y: auto; background-color: #FFF; margin-top: 10px;}
+.sap-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.sap-table th, .sap-table td { border: 1px solid #DFE3E7; padding: 4px 6px; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.sap-table th { background: linear-gradient(to bottom, #F4F5F7, #E4E5E7); color: var(--sap-blue-dark); position: sticky; top: 0; z-index: 10; font-weight: normal;}
+.sap-table tbody tr:hover { background-color: var(--sap-highlight); }
+.totals-row td { background-color: #F4F5F7; font-weight: bold;}
+
+/* Inputs dentro de tablas */
+.input-cuenta, .input-debe, .input-haber { width: 100%; border: none; padding: 2px; background: transparent;}
+.input-cuenta:focus, .input-debe:focus, .input-haber:focus { background-color: #FFFFE0; outline: 1px solid var(--sap-blue); }
+
+.mt-1 { margin-top: 10px; }
+.mt-2 { margin-top: 20px; }
+.sap-hr { border: 0; border-top: 1px solid #ccc; margin: 15px 0;}
+.readonly-input { background-color: #EFEFEF; color: var(--sap-blue-dark); pointer-events: none; border-color: #CCC; font-weight: bold; text-align: right;}
+.btn-danger { background: #CC0000; color: white; border: none; padding: 2px 6px; cursor: pointer; border-radius: 2px; font-weight: bold;}
+.form-panel { padding: 15px; }
